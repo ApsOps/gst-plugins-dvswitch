@@ -21,7 +21,7 @@
 /**
  * SECTION:element-dvswitchsink
  *
- * dvswitchsink is a sink that wraps tcpclientsink to send video to a dvswitch
+ * dvswitchsink is a sink that wraps tcpclientsink to send video to a DVSwitch
  * server.
  *
  * <refsect2>
@@ -70,8 +70,6 @@ static void gst_dvswitch_sink_set_property (GObject * object, guint prop_id,
 static void gst_dvswitch_sink_get_property (GObject * object, guint prop_id,
     GValue * value, GParamSpec * pspec);
 
-#define gst_dvswitch_sink_parent_class parent_class
-
 G_DEFINE_TYPE (GstDVSwitchSink, gst_dvswitch_sink, GST_TYPE_BIN);
 
 static GstStaticPadTemplate sink_template = GST_STATIC_PAD_TEMPLATE ("sink",
@@ -89,7 +87,7 @@ gst_dvswitch_sink_class_init (GstDVSwitchSinkClass * klass)
                         gst_static_pad_template_get (&sink_template));
   gst_element_class_set_metadata (eklass, "DVswitch video sink",
       "Sink/Video",
-      "Sink which uses tcpclientsink to stream to a dvswitch server",
+      "Sink which uses tcpclientsink to stream to a DVSwitch server",
       "Jan Schmidt <jan@centricular.com>");
 
 
@@ -114,10 +112,10 @@ gst_dvswitch_sink_class_init (GstDVSwitchSinkClass * klass)
 
   g_object_class_install_property (G_OBJECT_CLASS (klass), PROP_HOST,
       g_param_spec_string ("host", "host",
-          "The host/IP/Multicast group to send the packets to",
+          "Hostname of the DVSwitch server to send to.",
           UDP_DEFAULT_HOST, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (G_OBJECT_CLASS (klass), PROP_PORT,
-      g_param_spec_int ("port", "port", "The port to send the packets to",
+      g_param_spec_int ("port", "port", "Port of the DVSwitch server to send to",
           0, 65535, UDP_DEFAULT_PORT,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
@@ -131,7 +129,7 @@ gst_dvswitch_sink_dispose (GstDVSwitchSink * sink)
     sink->probe_id = 0;
   }
 
-  G_OBJECT_CLASS (parent_class)->dispose ((GObject *) sink);
+  G_OBJECT_CLASS (gst_dvswitch_sink_parent_class)->dispose ((GObject *) sink);
 }
 
 static gboolean gst_dvswitch_sink_create_sink(GstDVSwitchSink * sink);
@@ -247,7 +245,7 @@ gst_dvswitch_sink_change_state (GstElement * element,
       break;
   }
 
-  ret = GST_ELEMENT_CLASS (parent_class)->change_state (element, transition);
+  ret = GST_ELEMENT_CLASS (gst_dvswitch_sink_parent_class)->change_state (element, transition);
 
   switch (transition) {
     case GST_STATE_CHANGE_READY_TO_NULL:
